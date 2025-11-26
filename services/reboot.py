@@ -13,11 +13,15 @@ def reboot_device(host, password, dry_run):
         page.click('li[navi-value="advanced"] a')
         page.wait_for_url("**#networkStatus")
         page.click('li[navi-value="system"] a')
+        page.click('li[navi-value="reboot"] a')
         if dry_run:
             print(f"[REBOOT] Dry run enabled. Skipping reboot command for {host}.")
-            page.click('li[navi-value="reboot"] a')
         else:
             print(f"[REBOOT] Sending reboot command to {host}.")
-            page.click('li[navi-value="reboot"] a')
+            page.wait_for_url("**#reboot")
+            page.click("a[title='REBOOT']")
+            page.wait_for_timeout(1000)
+            page.click("a[title='REBOOT'] >> nth=-1")
+
         #page.pause()
         browser.close()

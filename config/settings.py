@@ -24,7 +24,8 @@ class HostCredentials:
         try:
             hosts = env[key("HOSTS")].split(",")
             password = env[key("PASSWORD")]
-            dry_run = env.get(key("DRY_RUN"), "false").lower() in ("1", "true", "yes")
+            dry_run = env[key("DRY_RUN")].lower() not in ("1", "true", "yes")
+            print(f"\n[CREDENTIALS] Dry run: " + str(dry_run))
         except KeyError as e:
             raise KeyError(f"Missing environment variable: {e.args[0]}") from e
 
